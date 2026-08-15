@@ -4,6 +4,7 @@ import { handleLogin } from "../api/login.api";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 export default function LoginForm() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -23,11 +24,11 @@ export default function LoginForm() {
     <div
       className="
       py-10
-          w-full
+          w-[90%]
           lg:w-[35%]
-          bg-(--surface)
+          bg-[var(--surface)]
           border
-          border-(--border)
+          border-[var(--border)]
           rounded-3xl
           shadow-xl
           flex

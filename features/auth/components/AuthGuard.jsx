@@ -9,7 +9,7 @@ function AuthGuard({children}) {
     const router = useRouter();
     const pathname = usePathname();
     useEffect(() => {
-        if (isPending) return;;
+        if (isPending) return;
         if (
           !user?._id &&
           !isPending &&
@@ -18,7 +18,7 @@ function AuthGuard({children}) {
         )
           router.push("/auth");
     },[isPending,isFetching,user,pathname,router])
-    if(user?._id) return children;
+    if(user?._id || pathname.includes('auth')) return children;
 }
 
 export default AuthGuard
