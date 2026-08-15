@@ -1,14 +1,33 @@
+'use client';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiShield } from "react-icons/fi";
+import { handleLogin } from "../api/login.api";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 export default function LoginForm() {
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const router = useRouter();
+    const queryClient = useQueryClient();
+    async function handleSubmit(e){
+        e.preventDefault();
+        try{
+            await handleLogin(email,password);
+            queryClient.invalidateQueries({queryKey:['user']});
+            router.push('/dashboard');
+        }catch(err){
+            console.log(err);
+        }
+    }
   return (
     <div
       className="
       py-10
           w-full
           lg:w-[35%]
-          bg-[var(--surface)]
+          bg-(--surface)
           border
-          border-[var(--border)]
+          border-(--border)
           rounded-3xl
           shadow-xl
           flex
@@ -22,13 +41,12 @@ export default function LoginForm() {
       {/* Logo */}
       <div className="flex flex-col items-center mb-">
         {/* Replace with your logo */}
-        
-          <img
-            src="/logo.png"
-            alt="Tahfeez Dohad"
-            className="w-24 h-24 object-contain mb-3"
-          />
-         
+
+        <img
+          src="/logo.png"
+          alt="Tahfeez Dohad"
+          className="w-24 h-24 object-contain mb-3"
+        />
 
         {/* <h1 className="text-2xl font-bold text-[var(--text-primary)]">
           Tahfeez Dohad
@@ -56,7 +74,7 @@ export default function LoginForm() {
       </div>
 
       {/* Form */}
-      <form className="space-y-5">
+      <form className="space-y-5" onSubmit={handleSubmit}>
         {/* Email */}
         <div>
           <label
@@ -85,6 +103,9 @@ export default function LoginForm() {
             />
 
             <input
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              required
               id="email"
               type="email"
               placeholder="Enter your email address"
@@ -137,6 +158,9 @@ export default function LoginForm() {
             />
 
             <input
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              required
               id="password"
               type="password"
               placeholder="Enter your password"
