@@ -1,6 +1,8 @@
 'use client';
 
 import { useUser } from "@/providers/UserProvider";
+import PageHeader from "@/shared/components/PageHeader";
+import Sidebar, { SidebarPlaceHolder } from "@/shared/components/Sidebar";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -18,7 +20,16 @@ function AuthGuard({children}) {
         )
           router.push("/auth");
     },[isPending,isFetching,user,pathname,router])
-    if(user?._id || pathname.includes('auth')) return children;
+    if(user?._id || pathname.includes('auth')) return (
+      <div className="flex w-full h-full">
+        <Sidebar />
+        <SidebarPlaceHolder />
+        <div className="h-screen flex flex-col w-full py-2">
+          <PageHeader />
+          {children}
+        </div>
+      </div>
+    );
 }
 
 export default AuthGuard

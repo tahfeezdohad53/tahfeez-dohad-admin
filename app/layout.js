@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import UserProvider from "@/providers/UserProvider";
 import AuthGuard from "@/features/auth/components/AuthGuard";
+import Sidebar from "@/shared/components/Sidebar";
 
 const inter = Inter({
   weight:['500','600','700'],
@@ -24,7 +25,9 @@ export default function RootLayout({ children }) {
         <Toaster />
         <ReactQueryProvider>
           <UserProvider>
-            <AuthGuard>{children}</AuthGuard>
+            <AuthGuard>
+              {children}
+            </AuthGuard>
           </UserProvider>
         </ReactQueryProvider>
       </body>

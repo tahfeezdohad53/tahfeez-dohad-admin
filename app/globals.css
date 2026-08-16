@@ -37,3 +37,8 @@
   --info: #0ea5e9;
   --info-light: #f0f9ff;
 }
+
+
+.transition{
+  @apply transition-all duration-300 ease-in-out hover:cursor-pointer
+}
