@@ -15,7 +15,7 @@ export default function LoginForm() {
         try{
             await handleLogin(email,password);
             queryClient.invalidateQueries({queryKey:['user']});
-            router.push('/dashboard');
+            router.push('/fee_management');
         }catch(err){
             console.log(err);
         }

@@ -1,10 +1,12 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import React from "react";
 import { FiBell, FiChevronDown } from "react-icons/fi";
 
 export default function PageHeader() {
-  return (
+  const pathname = usePathname();
+  if(!pathname.includes('auth'))return (
     <header className="flex items-center justify-between w-full border-b mb-2 px-3 border-b-gray-200 pb-3">
       {/* Left */}
       <div>

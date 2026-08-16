@@ -73,7 +73,7 @@ const menuGroups = [
 export default function Sidebar() {
   const pathname = usePathname();
 
-  return (
+  if(!pathname.includes('auth'))return (
     <aside className=" fixed left-0 top-0 flex h-screen w-65 flex-col border-r border-gray-200 bg-white px-3.5 py-5">
       {/* Logo */}
       <div className="flex items-center gap-3 px-2.5 pb-6">
@@ -190,5 +190,6 @@ export default function Sidebar() {
 
 
 export function SidebarPlaceHolder(){
-  return <div className="h-full min-w-65"></div>
+  const pathname = usePathname();
+  if(!pathname.includes('auth'))return <div className="h-full min-w-65"></div>
 }
