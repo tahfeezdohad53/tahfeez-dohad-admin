@@ -8,7 +8,6 @@ import { createContext, useContext, useState } from "react";
 async function getUser() {
   try {
     const { data } = await api.get("/user/getUser");
-    console.log(data);
     return data.user;
   } catch (err) {
     console.log("something went wrong");

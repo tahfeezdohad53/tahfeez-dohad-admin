@@ -14,6 +14,7 @@ function useSetFilterParams() {
         if(!batch) urlParams.set('batch','all');
         
         if(!fee_status) urlParams.set('fee_status','all');
+        if(!fee_status) urlParams.set('page','1');
 
         router.replace(`${pathname}?${urlParams}`,{scroll:false});
         

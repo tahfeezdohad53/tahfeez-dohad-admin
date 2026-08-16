@@ -75,14 +75,14 @@ const feeEntries = [
   },
 ];
 
-function StudentsFeeTable() {
+function StudentsFeeTable({obligations=[],count}) {
     return (
       <div className="rounded-md overflow-auto border border-gray-200 shadow-(--shadow-sm)">
         <FeeTableHeader />
 
-        {feeEntries.map((el,i) => <FeeTableRow key={el.its+i} i={i + 1} its={el.its} feeAllocated={el.allocatedFee} feePaid={el.feePaid} status={el.status} name={el.name}/>)}
+        {obligations?.map((el,i) => <FeeTableRow key={el.student.its} index={i} id={el._id} its={el.student.its} feeAllocated={el.allocatedFee} amountPaid={el.amountPaid} status={el.status} name={el.student.name}/>)}
 
-        <FeeTableController />
+        <FeeTableController count={count}/>
       </div>
     );
 }

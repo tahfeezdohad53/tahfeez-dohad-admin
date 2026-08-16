@@ -15,6 +15,7 @@ const filters = [
     filterButtons: [
       { text: "All", filterValue: "all", icon: <BsClock /> },
       { text: "Pending", filterValue: "pending", icon: <BsClock /> },
+      { text: "Partial", filterValue: "partial", icon: <BsClock /> },
       { text: "Paid", filterValue: "paid", icon: <CiCircleCheck /> },
     ],
   },

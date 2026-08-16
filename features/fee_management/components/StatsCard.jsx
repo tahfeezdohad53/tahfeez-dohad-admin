@@ -1,38 +1,45 @@
+import { formatCurrency } from "@/helpers/formatCurrency";
 import React from "react";
 import { FiUsers, FiCheckCircle, FiClock, FiDollarSign } from "react-icons/fi";
 
-const stats = [
-  {
-    title: "Total Students",
-    value: "128",
-    icon: FiUsers,
-    iconClass: "bg-blue-100 text-blue-600",
-    borderClass: "border-blue-100",
-  },
-  {
-    title: "Paid This Month",
-    value: "92",
-    icon: FiCheckCircle,
-    iconClass: "bg-green-100 text-green-600",
-    borderClass: "border-green-100",
-  },
-  {
-    title: "Pending This Month",
-    value: "36",
-    icon: FiClock,
-    iconClass: "bg-orange-100 text-orange-500",
-    borderClass: "border-orange-100",
-  },
-  {
-    title: "Total Fees Collected",
-    value: "₹ 1,24,500",
-    icon: FiDollarSign,
-    iconClass: "bg-purple-100 text-purple-600",
-    borderClass: "border-purple-100",
-  },
-];
 
-export default function StatsCards() {
+
+export default function StatsCards({
+  totalStudents,
+  feePaidThisMonth,
+  feePendingThisMonth,
+  totalFeePaid,
+}) {
+  const stats = [
+    {
+      title: "Total Students",
+      value: totalStudents,
+      icon: FiUsers,
+      iconClass: "bg-blue-100 text-blue-600",
+      borderClass: "border-blue-100",
+    },
+    {
+      title: "Paid This Month",
+      value: feePaidThisMonth,
+      icon: FiCheckCircle,
+      iconClass: "bg-green-100 text-green-600",
+      borderClass: "border-green-100",
+    },
+    {
+      title: "Pending This Month",
+      value: feePendingThisMonth,
+      icon: FiClock,
+      iconClass: "bg-orange-100 text-orange-500",
+      borderClass: "border-orange-100",
+    },
+    {
+      title: "Total Fees Collected",
+      value: formatCurrency().format(totalFeePaid),
+      icon: FiDollarSign,
+      iconClass: "bg-purple-100 text-purple-600",
+      borderClass: "border-purple-100",
+    },
+  ];
   return (
     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
       {stats.map((stat) => {
