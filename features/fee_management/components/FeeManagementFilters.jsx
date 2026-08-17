@@ -2,12 +2,12 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { BsClock } from "react-icons/bs"
 import { CiCircleCheck, CiSearch, CiUser } from "react-icons/ci"
-import { FiRefreshCw, FiDownload } from "react-icons/fi";
+import { FiRefreshCw, FiDownload, FiBell } from "react-icons/fi";
 import useSetFilterParams from "../hooks/useSetFilterParams";
 import Select from "./Select";
 import { useState } from "react";
 import toast from "react-hot-toast";
-
+// import { FiBell } from "react-icons/fi";
 const filters = [
   {
     filterName: "fee_status",
@@ -63,15 +63,15 @@ function FeeManagementFilters() {
       <div className="w-full  gap-5 px-3 border rounded-md border-gray-200 h-24 flex items-center justify-betwee )">
         <div className="relative flex-1 flex items-center gap-3">
           <input
-          onKeyDown={handleSearchWithITS}
-          onChange={(e) => setIts(e.target.value)}
-          value={its}
+            onKeyDown={handleSearchWithITS}
+            onChange={(e) => setIts(e.target.value)}
+            value={its}
             type="number"
             required
             placeholder="search with student its"
             className="w-full bg-(--surface) px-3 pl-10 text-sm font-thin focus:border-blue-500 focus:outline-none transition-all duration-300 ease-in-out py-2 border border-gray-300 rounded-md placeholder:text-xs"
           />
-          <CiSearch className="absolute left-2 top-1/2 -translate-y-1/2"/>
+          <CiSearch className="absolute left-2 top-1/2 -translate-y-1/2" />
         </div>
         {filters.map((el) => (
           <Select
@@ -84,14 +84,13 @@ function FeeManagementFilters() {
         <div className="flex items-center gap-5">
           {/* Reset Filters */}
           <button
-          onClick={resetFilters}
+            onClick={resetFilters}
             type="button"
             className="flex py-3 items-center gap-3 rounded-md shadow-(--shadow-sm) bg-gray-100 px-5 text-xs font-medium text-gray-600 transition hover:bg-gray-200"
           >
             <FiRefreshCw className="" />
             <span>Reset Filters</span>
           </button>
-
           {/* Export */}
           <button
             type="button"
@@ -99,6 +98,15 @@ function FeeManagementFilters() {
           >
             <FiDownload className="" />
             <span>Export</span>
+          </button>
+          
+          <button
+          onClick={() => toast.success('an email has been sent to all students whose fees are pending',{duration:4000})}
+            type="button"
+            className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#22375f] active:scale-[0.98]"
+          >
+            <FiBell className="text-[17px]" />
+            Notify All
           </button>
         </div>
       </div>

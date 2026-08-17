@@ -60,7 +60,7 @@ export default function FeeTableRow({ id,name, its, feeAllocated, amountPaid, st
         </button>
       </div>
       {showForm && <Modal onClose={()=>setShowForm(false)}>
-        <FeeUpdateForm onClose={()=>setShowForm(false)} name = {name} id={id} feeAllocated={feeAllocated} mutation={mutation}/>
+        <FeeUpdateForm onClose={()=>setShowForm(false)} name = {name} id={id} feeAllocated={feeAllocated} mutation={mutation} status={status} amountPaid={amountPaid}/>
       </Modal>}
     </div>
   );

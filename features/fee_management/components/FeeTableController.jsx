@@ -11,7 +11,7 @@ function FeeTableController({count}) {
 
   function handleNextPage(){
     const pageNo = Number(page);
-    if(pageNo === Math.ceil(count / 10)) return;
+    if(pageNo === Math.ceil(count / 10) || Math.ceil(count) === 0) return;
     const urlParams = new URLSearchParams(searchParams);
     urlParams.set('page',pageNo + 1);
     router.replace(`${pathname}?${urlParams}`,{scroll:false});

@@ -13,28 +13,28 @@ export default function StatsCards({
   const stats = [
     {
       title: "Total Students",
-      value: totalStudents,
+      value: totalStudents || 0,
       icon: FiUsers,
       iconClass: "bg-blue-100 text-blue-600",
       borderClass: "border-blue-100",
     },
     {
       title: "Paid This Month",
-      value: feePaidThisMonth,
+      value: feePaidThisMonth || 0,
       icon: FiCheckCircle,
       iconClass: "bg-green-100 text-green-600",
       borderClass: "border-green-100",
     },
     {
       title: "Pending This Month",
-      value: feePendingThisMonth,
+      value: feePendingThisMonth || 0,
       icon: FiClock,
       iconClass: "bg-orange-100 text-orange-500",
       borderClass: "border-orange-100",
     },
     {
       title: "Total Fees Collected",
-      value: formatCurrency().format(totalFeePaid),
+      value: formatCurrency().format(totalFeePaid || 0),
       icon: FiDollarSign,
       iconClass: "bg-purple-100 text-purple-600",
       borderClass: "border-purple-100",

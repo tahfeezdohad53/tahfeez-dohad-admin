@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { FiChevronDown, FiCreditCard } from "react-icons/fi";
 import { ImSpinner2 } from "react-icons/im";
 
-function FeeUpdateForm({onClose,name,id,feeAllocated,mutation}) {
+function FeeUpdateForm({onClose,name,id,feeAllocated,mutation,status:feeStatus,amountPaid}) {
     const [amount,setAmount] = useState('');
     const [status,setStatus] = useState('');
     const [transactionId,setTransactionId] = useState('');
@@ -16,7 +16,7 @@ function FeeUpdateForm({onClose,name,id,feeAllocated,mutation}) {
         e.preventDefault();
         if(!amount || !status || !transactionId) return toast.error('please fill all fields');
         const amountInNumber = Number(amount);
-        if(amountInNumber > feeAllocated) return toast.error('amount cannot be more than allocated fee');
+        if(amountInNumber > (feeAllocated - amountPaid)) return toast.error('you cannot pay more than pending amount');
         setIsSubmitting(true);
         await mutation.mutateAsync({id,amount,status,transactionId});
         setIsSubmitting(false);
@@ -39,6 +39,21 @@ function FeeUpdateForm({onClose,name,id,feeAllocated,mutation}) {
 
             <p className="mt-1 text-sm font-semibold text-[#17284a]">
               {formatCurrency().format(feeAllocated)}
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-blue-100 bg-blue-50/50 px-4 py-3">
+            <p className="text-xs font-medium text-gray-500">Status</p>
+
+            <p className="mt-1 text-sm font-semibold text-[#17284a]">
+              {feeStatus}
+            </p>
+          </div>
+          <div className="rounded-lg border border-blue-100 bg-blue-50/50 px-4 py-3">
+            <p className="text-xs font-medium text-gray-500">Amount pending</p>
+
+            <p className="mt-1 text-sm font-semibold text-[#17284a]">
+              {feeAllocated - amountPaid}
             </p>
           </div>
         </div>
