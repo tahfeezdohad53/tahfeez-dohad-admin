@@ -11,11 +11,11 @@ export default function PageHeader() {
       {/* Left */}
       <div>
         <h1 className="text-[24px] font-bold leading-tight text-slate-900">
-          Students & Fees
+          Students & Details
         </h1>
 
         <p className="mt-1 text-[13px] text-slate-500">
-          Manage student fee status and payments.
+          Manage student accounts.
         </p>
       </div>
 

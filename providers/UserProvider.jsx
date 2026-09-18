@@ -1,19 +1,10 @@
 "use client";
 import { api } from "@/shared/lib/axios";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useRouter } from "next/navigation";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 
-async function getUser() {
-  try {
-    const { data } = await api.get("/user/getUser");
-    return data.user;
-  } catch (err) {
-    console.log("something went wrong");
-    return {};
-  }
-}
 
 const Context = createContext();
 function UserProvider({ children }) {
@@ -23,8 +14,19 @@ function UserProvider({ children }) {
     queryFn: getUser,
     refetchOnWindowFocus: false,
   });
-
+  const router = useRouter();
   
+  
+  async function getUser() {
+    try {
+      const { data } = await api.get("/user/getUser");
+      return data.user;
+    } catch (err) {
+      console.log("something went wrong");
+      router.replace('/auth');
+      return {};
+    }
+  }
   return (
     <Context.Provider value={{ user, isFetching, isPending }}>
       {children}

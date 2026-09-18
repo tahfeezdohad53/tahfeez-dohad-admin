@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { FaUsers } from "react-icons/fa";
 
 import {
   FiGrid,
@@ -26,48 +27,29 @@ const menuGroups = [
         path: "/dashboard",
         icon: FiGrid,
       },
+      {
+        name: "Accounts",
+        path: "/accounts",
+        icon: FaUsers,
+      },
     ],
   },
   {
     title: "FINANCE",
     items: [
       {
-        name: "Fee Management",
-        path: "/fee_management",
+        name: "Hub Management",
+        path: "/hub_management",
         icon: FiDollarSign,
       },
       {
-        name: "Salary Management",
-        path: "/salary_management",
+        name: "Reports",
+        path: "/hub_reports",
         icon: FiCreditCard,
       },
-      {
-        name: "Other Expenses",
-        path: "/other_expenses",
-        icon: FiTrendingDown,
-      },
     ],
   },
-  {
-    title: "ACADEMIC",
-    items: [
-      {
-        name: "Students",
-        path: "/students",
-        icon: FiUsers,
-      },
-      {
-        name: "Teachers",
-        path: "/teachers",
-        icon: FiUserCheck,
-      },
-      {
-        name: "Classes",
-        path: "/classes",
-        icon: FiBookOpen,
-      },
-    ],
-  },
+ 
 ];
 
 export default function Sidebar() {
