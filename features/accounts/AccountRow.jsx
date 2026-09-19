@@ -42,7 +42,7 @@ export default function AccountRow({ user, index,i,selectedStudents,isSelecting,
 
       <h1 className="flex items-center gap-2 col-span- text-left font-bold">
               <p
-                className={`${randomColors[i + 1]} rounded-full flex items-center justify-center min-h-7 min-w-7`}
+                className={`${randomColors[i + 1]} text-xs rounded-full flex items-center justify-center min-h-7 min-w-7`}
               >
                 {user.name.split(" ")[1].slice(0, 1).toUpperCase()}
               </p>{" "}
