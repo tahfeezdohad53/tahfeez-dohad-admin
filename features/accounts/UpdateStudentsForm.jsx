@@ -2,6 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { MdClose, MdGroups, MdSwapHoriz } from "react-icons/md";
 import useUpdateStudentsBulk from "./hooks/useUpdateStudentsBulk";
+import { useSearchParams } from "next/navigation";
 
 const batches = [
   "yaqoot_mardo",
@@ -14,8 +15,9 @@ const batches = [
 ];
 function UpdateStudentsForm({selectedStudents,onClose}) {
   const mutate = useUpdateStudentsBulk();
-
-    const [selectedBatch,setSelectedBatch] = useState('');
+  const searchParams = useSearchParams();
+  const batch = searchParams.get('batch');
+    const [selectedBatch,setSelectedBatch] = useState(batch || '');
     const [hubAmount,setHubAmount] = useState('');
     const [isSubmitting,setIsSubmitting] = useState(false);
     async function handleUpdateStudent(){
@@ -114,6 +116,7 @@ function UpdateStudentsForm({selectedStudents,onClose}) {
               </label>
 
               <input
+              placeholder="Enter Hub Amount"
               onChange={(e) => setHubAmount(e.target.value)}
               value={hubAmount}
                 type="number"

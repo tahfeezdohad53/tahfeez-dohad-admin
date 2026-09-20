@@ -17,7 +17,7 @@ function HubManagementPage() {
   } = useObligationStats();
 
     return (
-      <div className="flex-1 px-3 flex flex-col gap-5">
+      <div className="flex-1 px-3 pb-5 flex flex-col gap-5">
         <StatsCards
           feePendingThisMonth={obligationPendingThisMonth}
           feePaidThisMonth={obligationPaidThisMonth}

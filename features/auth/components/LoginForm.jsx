@@ -184,7 +184,7 @@ export default function LoginForm() {
                 "
             />
 
-            <button
+            {/* <button
               type="button"
               className="
                   absolute
@@ -197,7 +197,7 @@ export default function LoginForm() {
                 "
             >
               <FiEye size={19} />
-            </button>
+            </button> */}
           </div>
         </div>
 

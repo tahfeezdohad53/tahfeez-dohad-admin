@@ -1,13 +1,20 @@
+'use client';
+
+import { useUser } from "@/providers/UserProvider";
 import HubReportsFilter from "./components/HubReportsFilter"
 import HubReportsTable from "./components/HubReportsTable";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 function HubReportsPage() {
-  return (
-      <div className="fixed left-65 top-0 h-screen w-3/4 flex items-center justify-center text-lg ">Access denied!</div>
+  const {user} = useUser();
+  const router = useRouter();
 
-  );
+  useEffect(() => {
+    if (user?.isSubAdmin) router.replace("/hub_management");
+  },[user,router]);
 
-    return (
+    if(!user?.isSubAdmin)return (
       <div className="flex-1 px-3 flex flex-col gap-5">
         <HubReportsFilter />
 

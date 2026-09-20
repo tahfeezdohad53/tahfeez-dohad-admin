@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { FaUsers } from "react-icons/fa";
 
@@ -17,44 +17,47 @@ import {
   FiLogOut,
   FiChevronRight,
 } from "react-icons/fi";
+import { api } from "../lib/axios";
+import { useUser } from "@/providers/UserProvider";
 
-const menuGroups = [
-  {
-    title: "MAIN",
-    items: [
-      {
-        name: "Dashboard",
-        path: "/dashboard",
-        icon: FiGrid,
-      },
-      {
-        name: "Accounts",
-        path: "/accounts",
-        icon: FaUsers,
-      },
-    ],
-  },
-  {
-    title: "FINANCE",
-    items: [
-      {
-        name: "Hub Management",
-        path: "/hub_management",
-        icon: FiDollarSign,
-      },
-      {
-        name: "Reports",
-        path: "/hub_reports",
-        icon: FiCreditCard,
-      },
-    ],
-  },
- 
-];
+
 
 export default function Sidebar() {
   const pathname = usePathname();
-
+  const router = useRouter();
+  const {user} = useUser();
+  const menuGroups = [
+    {
+      title: "MAIN",
+      items: [
+        {
+          name: "Dashboard",
+          path: "/dashboard",
+          icon: FiGrid,
+        },
+        {
+          name: "Accounts",
+          path: "/accounts",
+          icon: FaUsers,
+        },
+      ],
+    },
+    {
+      title: "FINANCE",
+      items: [
+        {
+          name: "Hub Management",
+          path: "/hub_management",
+          icon: FiDollarSign,
+        },
+        !user?.isSubAdmin && {
+          name: "Reports",
+          path: "/hub_reports",
+          icon: FiCreditCard,
+        }
+      ].filter(Boolean),
+    },
+  ];
   if(!pathname.includes('auth'))return (
     <aside className=" fixed left-0 top-0 flex h-screen w-65 flex-col border-r border-gray-200 bg-white px-3.5 py-5">
       {/* Logo */}
@@ -143,6 +146,10 @@ export default function Sidebar() {
 
         {/* Logout */}
         <button
+        onClick={async () => {
+          await api.get('/auth/logout');
+          router.replace('/auth');
+        }}
           type="button"
           className="group flex h-11 w-full items-center rounded-lg px-3 text-[13px] font-medium text-gray-500 transition-all hover:bg-gray-100 hover:text-gray-900"
         >

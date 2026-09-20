@@ -9,6 +9,7 @@ import { FiDownload, FiRefreshCw } from "react-icons/fi";
 import useSetSearchParams from "../hooks/useSetSearchParams";
 import toast from "react-hot-toast";
 import { GoStack } from "react-icons/go";
+import HubReportsExportButton from "./HubReportsExportButton";
 
 
 const filters = [
@@ -143,13 +144,7 @@ function HubReportsFilter() {
           <span>Reset Filters</span>
         </button>
         {/* Export */}
-        <button
-          type="button"
-          className="flex h-fit self-end py-3 items-center gap-3 rounded-md shadow-(--shadow-sm) bg-blue-600 px-6 text-xs font-medium text-white transition hover:bg-blue-700"
-        >
-          <FiDownload className="" />
-          <span>Export</span>
-        </button>
+        <HubReportsExportButton />
 
         {/* <button
             onClick={() =>

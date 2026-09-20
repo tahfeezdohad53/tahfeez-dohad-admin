@@ -6,14 +6,13 @@ import { handleGetFeeStats, handleGetObligationStats } from "../api/handleGetObl
 
 function useObligationStats() {
   
-  const { data: stats } = useQuery({
+  return useQuery({
     queryKey: ["obligation_stats"],
     queryFn: () => handleGetObligationStats(),
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   });
 
-  return stats ? {...stats} : {};
 }
 
 export default useObligationStats;

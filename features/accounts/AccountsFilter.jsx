@@ -56,8 +56,8 @@ export default function AccountFilters() {
               className="h-10 w-full rounded-xl border border-gray-300 px-3 text-sm outline-none focus:border-violet-500"
             >
               <option value="student">Student</option>
-              <option value="teacher">Teacher</option>
-              <option value="admin">Admin</option>
+              {/* <option value="teacher">Teacher</option>
+              <option value="admin">Admin</option> */}
             </select>
           </div>
 

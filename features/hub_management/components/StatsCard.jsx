@@ -1,41 +1,40 @@
 import { formatCurrency } from "@/helpers/formatCurrency";
 import React from "react";
 import { FiUsers, FiCheckCircle, FiClock, FiDollarSign } from "react-icons/fi";
+import useObligationStats from "../hooks/useObligationStats";
+import { FaRegHourglass } from "react-icons/fa";
 
 
 
-export default function StatsCards({
-  totalStudents,
-  feePaidThisMonth,
-  feePendingThisMonth,
-  totalFeePaid,
-}) {
+export default function StatsCards() {
+  const {data} = useObligationStats();
+  if(!data) return;
   const stats = [
     {
       title: "Total Students",
-      value: totalStudents || 0,
+      value: data.totalStudents || 0,
       icon: FiUsers,
       iconClass: "bg-blue-100 text-blue-600",
       borderClass: "border-blue-100",
     },
     {
       title: "Paid This Month",
-      value: feePaidThisMonth || 0,
+      value: data.hubPaidThisMonth || 0,
       icon: FiCheckCircle,
       iconClass: "bg-green-100 text-green-600",
       borderClass: "border-green-100",
     },
     {
       title: "Pending This Month",
-      value: feePendingThisMonth || 0,
+      value: data.hubPendingThisMonth || 0,
       icon: FiClock,
       iconClass: "bg-orange-100 text-orange-500",
       borderClass: "border-orange-100",
     },
     {
       title: "Partial This Month",
-      value: 0,
-      icon: FiDollarSign,
+      value: data.partialHubThisMonth,
+      icon: FaRegHourglass,
       iconClass: "bg-purple-100 text-purple-600",
       borderClass: "border-purple-100",
     },

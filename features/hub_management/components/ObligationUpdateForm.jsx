@@ -11,15 +11,17 @@ import {
   FiHash,
   FiCalendar,
 } from "react-icons/fi";
+import { FaCalendar } from "react-icons/fa";
 function ObligationUpdateForm({onClose,name,id,allocatedHub,mutation,status:feeStatus,amountPaid}) {
     const [amount,setAmount] = useState('');
     const [status,setStatus] = useState('');
     const [transactionId,setTransactionId] = useState('');
     const [isSubmitting,setIsSubmitting] = useState(false);
     const [selectedMonths,setSelectedMonths] = useState([]);
+    const [paidAt,setPaidAt] = useState('');
     async function handleSubmit(e){
         e.preventDefault();
-        if(!amount || !status || !transactionId || !selectedMonths.length) return toast.error('please fill all fields');
+        if(!amount || !status || !transactionId || !selectedMonths.length || !paidAt) return toast.error('please fill all fields');
         const date = new Date();
 
         const dates = selectedMonths.map(el => {
@@ -29,12 +31,15 @@ function ObligationUpdateForm({onClose,name,id,allocatedHub,mutation,status:feeS
         const amountInNumber = Number(amount);
         if(amountInNumber > (allocatedHub - amountPaid)) return toast.error('you cannot pay more than pending amount');
         setIsSubmitting(true);
-        await mutation.mutateAsync({id,amount,status,transactionId,dates});
+        await mutation.mutateAsync({id,amount,status,transactionId,dates,paidAt});
         setIsSubmitting(false);
         onClose();
     }
     return (
-      <form onSubmit={handleSubmit} className="px-7 py-5 h-[95%] overflow-auto ">
+      <form
+        onSubmit={handleSubmit}
+        className="px-7 py-5 h-[95%] overflow-auto "
+      >
         {/* Header */}
         <div>
           <h2 className="text-[25px] font-bold tracking-tight text-[#142653]">
@@ -191,11 +196,34 @@ function ObligationUpdateForm({onClose,name,id,allocatedHub,mutation,status:feeS
                 />
               </div>
             </div>
+            <div>
+              <label className="mb-1.5 block text-left text-sm font-semibold text-[#17284a]">
+                Date
+              </label>
+
+              <div className="relative">
+                {/* <FaCalendar
+                  size={17}
+                  className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                /> */}
+                <input
+                onChange={e => setPaidAt(e.target.value)}
+                  type="date"
+                  className="h-11 w-full appearance-none rounded-lg border
+                border-gray-300 bg-white px-3 pr-5 text-sm text-gray-700
+                outline-none transition focus:border-blue-500 focus:ring-2
+                focus:ring-blue-100"
+                />
+              </div>
+            </div>
 
             {/* Months */}
             <div className="md:col-span-2">
               <label className="mb-1.5 block text-left text-sm font-semibold text-[#17284a]">
-                Months <span className="text-xs text-gray-600">({new Date().getFullYear()})</span>
+                Months{" "}
+                <span className="text-xs text-gray-600">
+                  ({new Date().getFullYear()})
+                </span>
               </label>
 
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
