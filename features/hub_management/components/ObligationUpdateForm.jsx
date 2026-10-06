@@ -12,7 +12,7 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 import { FaCalendar } from "react-icons/fa";
-function ObligationUpdateForm({onClose,name,id,allocatedHub,mutation,status:feeStatus,amountPaid}) {
+function ObligationUpdateForm({onClose,name,id,allocatedHub,mutation,status:feeStatus,amountPaid,studentId}) {
     const [amount,setAmount] = useState('');
     const [status,setStatus] = useState('');
     const [transactionId,setTransactionId] = useState('');
@@ -31,7 +31,7 @@ function ObligationUpdateForm({onClose,name,id,allocatedHub,mutation,status:feeS
         const amountInNumber = Number(amount);
         if(amountInNumber > (allocatedHub - amountPaid)) return toast.error('you cannot pay more than pending amount');
         setIsSubmitting(true);
-        await mutation.mutateAsync({id,amount,status,transactionId,dates,paidAt});
+        await mutation.mutateAsync({id,amount,status,transactionId,dates,paidAt,studentId});
         setIsSubmitting(false);
         onClose();
     }
