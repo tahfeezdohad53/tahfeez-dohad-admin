@@ -20,6 +20,7 @@ function ObligationUpdateForm({onClose,name,id,allocatedHub,mutation,status:feeS
     const [selectedMonths,setSelectedMonths] = useState([]);
     const [paidAt,setPaidAt] = useState('');
     async function handleSubmit(e){
+      console.log('id : '+studentId)
         e.preventDefault();
         if(!amount || !status || !transactionId || !selectedMonths.length || !paidAt) return toast.error('please fill all fields');
         const date = new Date();

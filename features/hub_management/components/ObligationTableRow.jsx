@@ -47,6 +47,7 @@ export default function ObligationTableRow({
   const serialNumber = (page - 1) * 10 + index + 1;
   const currency = formatCurrency();
   console.log(allocatedHub);
+  console.log("hub",studentId);
   let style;
   if (status === "paid") style = "bg-green-100 text-green-600";
   if (status === "partial") style = "bg-orange-100 text-orange-600";
