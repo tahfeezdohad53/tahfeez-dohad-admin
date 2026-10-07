@@ -28,7 +28,7 @@ function UpdateStudentsButton({ selectedStudents }) {
           onClose={() => setIsShowForm(false)}
           selectedStudents={selectedStudents}
         />
-      )}
+      )}  
     </div>
   );
 }

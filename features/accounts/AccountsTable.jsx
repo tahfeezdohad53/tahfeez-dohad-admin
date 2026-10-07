@@ -10,6 +10,7 @@ import { api } from "@/shared/lib/axios";
 import useAccounts from "./hooks/useAccounts";
 import { MdClose, MdDoneAll, MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import UpdateStudentsButton from "./updateStudentsButton";
+import CreateStudentAccountForm from "./CreateStudentAccountForm";
 
 export default function AccountsTable() {
   const { data } = useAccounts();
@@ -17,6 +18,7 @@ export default function AccountsTable() {
   const page = searchParams.get("page");
   const [isSelecting, setIsSelecting] = useState(false);
   const [selectedStudents, setSelectedStudents] = useState([]);
+  const [isShowCreateForm,setIsShowCreateForm] = useState(false);
 
   function selecteAll(e) {
     
@@ -48,6 +50,18 @@ export default function AccountsTable() {
             </span>
           </div>
         )}
+        <button
+        onClick={()=>setIsShowCreateForm(true)}
+          className="disabled:  flex items-center gap-2 rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-600 transition-all duration-200 hover:border-indigo-300 hover:bg-indigo-100 hover:cursor-pointer  disabled:cursor-not-allowed
+    disabled:border-gray-200
+    disabled:bg-gray-50
+    disabled:text-gray-300
+    enabled:hover:border-indigo-300
+    enabled:hover:bg-indigo-100"
+        >
+          + Add
+        </button>
+        {isShowCreateForm && <CreateStudentAccountForm onClose={()=>setIsShowCreateForm(false)}/>}
       </div>
       <div className="flex flex-col rounded-2xl border border-gray-200 bg-(--card) shadow-sm">
         <div className="grid grid-cols-[60px_3fr_1.2fr_1fr_1fr_0.5fr] border-b border-gray-200 bg-(--bg-tertiary)/30 px-6 py-4 text-sm font-semibold text-gray-700">
