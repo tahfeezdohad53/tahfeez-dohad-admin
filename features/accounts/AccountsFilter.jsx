@@ -77,6 +77,7 @@ export default function AccountFilters() {
                 <option value="baneen">baneen</option>
                 <option value="banaat">banaat</option>
                 <option value="kibaar">kibaar</option>
+                <option value="sigaar">Sigaar</option>
                 <option value="taheri_hall">taheri_hall</option>
               </select>
             </div>
