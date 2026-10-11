@@ -7,9 +7,11 @@ import {
   MdPersonOutline,
   MdKeyboardArrowDown,
   MdSave,
+  MdDelete,
 } from "react-icons/md";
 import toast from "react-hot-toast";
 import useUpdateStudent from "@/features/accounts/hooks/useUpdateStudent";
+import useDeleteStudent from "./hooks/useDeleteStudent";
 
 const batches = [
   "yaqoot_mardo",
@@ -27,17 +29,21 @@ function UpdateStudentForm({
 }) {
   
       const mutate = useUpdateStudent();
+      const deleteStudent = useDeleteStudent();
       const [isSubmitting,setIsSubmitting] = useState(false);
       const [selectedBatch, setSelectedBatch] = useState(student?.batch || "");
       const [allocatedHub, setAllocatedHub] = useState(
         student?.allocatedHub || "",
       );
+      const [email,setEmail] = useState(student?.contactEmail || '');
+      const [address,setAddress] = useState(student?.address || '');
+      const [contactNumber,setContactNumber] = useState(student?.contactNumber || '');
 
       async function handleUpdateStudent(e) {
-        if(selectedBatch === student.batch && allocatedHub === student.allocatedHub) return toast.error('select new data to update!');
+        if(!selectedBatch || !email || !address || !allocatedHub || !contactNumber) return toast.error('fill all fields first!');
         try{
             setIsSubmitting(true);
-            await mutate.mutateAsync({allocatedHub,batch:selectedBatch,studentId:student._id});
+            await mutate.mutateAsync({allocatedHub,batch:selectedBatch,studentId:student._id,contactEmail:email,address,contactNumber});
             onClose();
         }catch(err){
             console.log(err);
@@ -94,26 +100,60 @@ function UpdateStudentForm({
                 </p>
               </div>
             </div>
-
-            {/* Status */}
-            {/* <span
-              className={`rounded-full px-4 py-2 text-sm font-medium ${
-                student?.status === "paid"
-                  ? "bg-green-50 text-green-600"
-                  : student?.status === "partial"
-                    ? "bg-orange-50 text-orange-600"
-                    : "bg-red-50 text-red-500"
-              }`}
-            >
-              <span className="mr-2">●</span>
-              {student?.status}
-            </span> */}
           </div>
         </div>
 
         {/* Form */}
         <div className="grid grid-cols-2 gap-6 px-7 py-7">
           {/* Batch */}
+
+          {/* email */}
+          <div>
+            <label className="mb-2  text-left block text-sm font-medium text-gray-700">
+              Email <span className="text-red-500">*</span>
+            </label>
+
+            <div className="flex overflow-hidden rounded-xl border border-gray-200 transition-all duration-200 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-50">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter email"
+                className="w-full px-4 py-3.5 text-sm text-gray-700 outline-none"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="mb-2  text-left block text-sm font-medium text-gray-700">
+              Address <span className="text-red-500">*</span>
+            </label>
+
+            <div className="flex overflow-hidden rounded-xl border border-gray-200 transition-all duration-200 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-50">
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Enter address"
+                className="w-full px-4 py-3.5 text-sm text-gray-700 outline-none"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="mb-2  text-left block text-sm font-medium text-gray-700">
+              Contact Number <span className="text-red-500">*</span>
+            </label>
+
+            <div className="flex overflow-hidden rounded-xl border border-gray-200 transition-all duration-200 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-50">
+              <input
+                type="text"
+                value={contactNumber}
+                onChange={(e) => setContactNumber(e.target.value)}
+                placeholder="Enter whatsapp number"
+                className="w-full px-4 py-3.5 text-sm text-gray-700 outline-none"
+              />
+            </div>
+          </div>
+
           <div className="relative">
             <label className="mb-2 text-left  block text-sm font-medium text-gray-700">
               Batch <span className="text-red-500">*</span>
@@ -167,24 +207,36 @@ function UpdateStudentForm({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 border-t border-gray-100 bg-gray-50/50 px-7 py-5">
+        <div className="flex items-center justify-between gap-3 border-t border-gray-100 bg-gray-50/50 px-7 py-5">
           <button
             type="button"
-            onClick={onClose}
-            className="rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-medium text-gray-600 transition-all duration-200 hover:cursor-pointer hover:bg-gray-100"
+            onClick={async () => {
+              const confirm = window.confirm('are you sure you want to delete this student ?');
+              if(confirm) await deleteStudent.mutateAsync({studentId:student._id});
+            }}
+            className="flex items-center gap-2 rounded-xl border border-gray-200 bg-red-500 px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:cursor-pointer hover:bg-red-600"
           >
-            Cancel
+            <MdDelete /> Delete
           </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-medium text-gray-600 transition-all duration-200 hover:cursor-pointer hover:bg-gray-100"
+            >
+              Cancel
+            </button>
 
-          <button
-            type="button"
-            disabled={!selectedBatch || !allocatedHub || isSubmitting}
-            onClick={handleUpdateStudent}
-            className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:cursor-pointer hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
-          >
-            <MdSave className="text-xl" />
-            Update Student
-          </button>
+            <button
+              type="button"
+              disabled={!selectedBatch || !allocatedHub || isSubmitting}
+              onClick={handleUpdateStudent}
+              className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:cursor-pointer hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+            >
+              <MdSave className="text-xl" />
+              Update Student
+            </button>
+          </div>
         </div>
       </div>
     </div>

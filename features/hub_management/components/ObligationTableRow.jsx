@@ -10,7 +10,7 @@ import FeeUpdateForm from "./ObligationUpdateForm";
 import useUpdateObligation from "../hooks/useUpdateObligation";
 import UpdateHubAndBatchForm from "./UpdateHubAndBatchForm";
 import { LuUsers } from "react-icons/lu";
-import UpdateStudentForm from "./updateStudentForm";
+import UpdateStudentForm from "../../accounts/updateStudentForm";
 
 const randomColors = [
   "bg-purple-100 text-purple-700",

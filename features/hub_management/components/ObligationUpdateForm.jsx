@@ -20,7 +20,7 @@ function ObligationUpdateForm({onClose,name,id,allocatedHub,mutation,status:feeS
     const [selectedMonths,setSelectedMonths] = useState([]);
     const [paidAt,setPaidAt] = useState('');
     async function handleSubmit(e){
-      console.log('id : '+studentId)
+      // console.log('id : '+studentId)
         e.preventDefault();
         if(!amount || !status || !transactionId || !selectedMonths.length || !paidAt) return toast.error('please fill all fields');
         const date = new Date();
@@ -32,9 +32,14 @@ function ObligationUpdateForm({onClose,name,id,allocatedHub,mutation,status:feeS
         const amountInNumber = Number(amount);
         if(amountInNumber > (allocatedHub - amountPaid)) return toast.error('you cannot pay more than pending amount');
         setIsSubmitting(true);
-        await mutation.mutateAsync({id,amount,status,transactionId,dates,paidAt,studentId});
-        setIsSubmitting(false);
-        onClose();
+        try{
+          await mutation.mutateAsync({id,amount,status,transactionId,dates,paidAt,studentId});
+          onClose();
+        }catch(err){
+          console.log(err);
+        }finally{
+          setIsSubmitting(false);
+        }
     }
     return (
       <form

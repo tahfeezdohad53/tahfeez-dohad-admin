@@ -1,6 +1,6 @@
 import { formatName } from "@/helpers/formatName";
 import { FiEdit3 } from "react-icons/fi";
-import UpdateStudentForm from "../hub_management/components/updateStudentForm";
+import UpdateStudentForm from "./updateStudentForm";
 import { useState } from "react";
 import useUpdateStudent from "./hooks/useUpdateStudent";
 import { formatCurrency } from "@/helpers/formatCurrency";

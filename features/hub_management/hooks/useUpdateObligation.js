@@ -8,12 +8,13 @@ function useUpdateObligation() {
     const mutation = useMutation({
         mutationFn:updateObligation,
         onSuccess:() => {
-            toast.success('Data updated!');
+            toast.success('data updated');
             queryClient.invalidateQueries({ queryKey: ["obligation"] });
             queryClient.invalidateQueries({ queryKey: ["obligation_stats"] });
         },
-        onError:() => {
-            toast.error('failed to update fee data');
+        onError:(err) => {
+            // console.log(err.response.data.message);
+            toast.error(err.response?.data?.message || 'failed to update fee data');
         }
     })
     return mutation;
