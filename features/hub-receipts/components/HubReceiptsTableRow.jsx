@@ -5,6 +5,7 @@ import { formatName } from "@/helpers/formatName";
 import { useState } from "react";
 import { CiCalendarDate } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MdContentCopy } from "react-icons/md";
 
 const randomColors = [
@@ -36,7 +37,9 @@ function HubReportsTableRow({
   amountPaid,
   date,
   transaction_id,
-  i
+  i,
+  emailStatus,
+  emailErrorMessage
 }) {
 
   const [isCopiedToClipboard,setIsCopiedToClipboard] = useState(false);
@@ -52,7 +55,7 @@ function HubReportsTableRow({
 
   
   return (
-    <div className="w-full grid grid-cols-14 p-3 text-xs text-center bg-(--surface) border-b border-b-gray-100">
+    <div className="w-full grid grid-cols-16 p-3 text-xs text-center bg-(--surface) border-b border-b-gray-100">
       <p className="text-left flex items-center">1</p>
 
       <h1 className="flex items-center gap-2 col-span-4 text-left font-bold">
@@ -100,6 +103,10 @@ function HubReportsTableRow({
           </button>
         </div>
       </div>
+
+      <p className="my-auto">{emailStatus || '-'}</p>
+
+      <button className="ml-auto my-auto"><HiOutlineDotsVertical /></button>
     </div>
   );
 }

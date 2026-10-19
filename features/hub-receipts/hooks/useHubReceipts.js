@@ -1,7 +1,7 @@
 'use client';
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { handleGetHubReports } from "../api/handleGetHubReports";
+import { handleGetHubReports } from "../api/handleGetHubReceipts";
 import { useSearchParams } from "next/navigation";
 
 function useHubReports() {

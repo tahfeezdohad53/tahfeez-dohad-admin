@@ -50,12 +50,12 @@ export default function Sidebar() {
           path: "/hub_management",
           icon: FiDollarSign,
         },
-        !user?.isSubAdmin && {
-          name: "Reports",
-          path: "/hub_reports",
+        {
+          name: "Receipts",
+          path: "/hub-receipts",
           icon: FiCreditCard,
         }
-      ].filter(Boolean),
+      ]
     },
   ];
   if(!pathname.includes('auth'))return (

@@ -1,4 +1,4 @@
-import HubReportsPage from "@/features/hub_reports/HubReportsPage"
+import HubReportsPage from "@/features/hub-receipts/HubReceiptsPage"
 
 function Page() {
     return (

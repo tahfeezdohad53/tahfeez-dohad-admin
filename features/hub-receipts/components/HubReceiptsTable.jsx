@@ -1,10 +1,10 @@
 'use client';
 
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
-import useHubReports from "../hooks/useHubReports";
-import HubReportsTableController from "./HubReportsTableController";
-import HubReportsTableHeader from "./HubReportsTableHeader";
-import HubReportsTableRow from "./HubReportsTableRow";
+import useHubReports from "../hooks/useHubReceipts";
+import HubReportsTableController from "./HubReceiptsTableController";
+import HubReportsTableHeader from "./HubReceiptsTableHeader";
+import HubReportsTableRow from "./HubReceiptsTableRow";
 
 function HubReportsTable() {
     const {data} = useHubReports();
@@ -22,8 +22,10 @@ function HubReportsTable() {
             student={el.student}
             batch={el.batch}
             amountPaid={el.amountPaid}
-            date={el.date}
+            date={el.paidAt}
             transaction_id={el.transaction_id}
+            emailStatus={el?.emailStatus}
+            emailErrorMessage={el?.emailErrorMessage}
           />
         ))}
 

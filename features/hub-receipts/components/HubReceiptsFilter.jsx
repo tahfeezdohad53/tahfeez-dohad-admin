@@ -9,7 +9,7 @@ import { FiDownload, FiRefreshCw } from "react-icons/fi";
 import useSetSearchParams from "../hooks/useSetSearchParams";
 import toast from "react-hot-toast";
 import { GoStack } from "react-icons/go";
-import HubReportsExportButton from "./HubReportsExportButton";
+import HubReportsExportButton from "./HubReceiptsExportButton";
 
 
 const filters = [
