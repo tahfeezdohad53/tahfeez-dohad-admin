@@ -14,7 +14,7 @@ function HubReportsExportButton() {
     async function downloadExcel(){
         console.log('hello')
         try{
-            const { data } = await api.get("/hub/reports/excel", {
+            const { data } = await api.get("/hub/receipts/excel", {
               params: {
                 page: page || "",
                 from: from || "",
