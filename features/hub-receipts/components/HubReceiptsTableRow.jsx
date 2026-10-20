@@ -3,10 +3,16 @@
 import { formatCurrency } from "@/helpers/formatCurrency";
 import { formatName } from "@/helpers/formatName";
 import { useState } from "react";
-import { CiCalendarDate } from "react-icons/ci";
+import { CiCalendarDate, CiCircleQuestion, CiClock2 } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa";
+import { FiRotateCw, FiTrash2 } from "react-icons/fi";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MdContentCopy } from "react-icons/md";
+import useDeleteReceipt from "../hooks/useDeleteReceipt";
+import toast from "react-hot-toast";
+import { api } from "@/shared/lib/axios";
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { RxCrossCircled } from "react-icons/rx";
 
 const randomColors = [
   "bg-purple-100 text-purple-700",
@@ -32,6 +38,7 @@ const batchColors = {
 };
 
 function HubReportsTableRow({
+  receiptId,
   student,
   batch,
   amountPaid,
@@ -43,6 +50,10 @@ function HubReportsTableRow({
 }) {
 
   const [isCopiedToClipboard,setIsCopiedToClipboard] = useState(false);
+  const [showMenu,setShowMenu] = useState(false);
+  const [isResending,setIsResending] = useState(false);
+
+  const mutate = useDeleteReceipt();
 
   function handleCopyToClipboard(){
     if(isCopiedToClipboard) return;
@@ -53,6 +64,35 @@ function HubReportsTableRow({
     }, 5000);
   }
 
+  async function handleDelete(){
+    const confirm = window.confirm('are you sure you want to delete receipt ?');
+    if(!confirm) return;
+    try{
+      toast.loading('deleting receipt',{id:'receipt'});
+      await mutate.mutateAsync({ id: receiptId });
+    }catch(err){
+      console.log(err);
+    }
+    setShowMenu(false);
+  }
+
+  async function handleResend(){
+    const confirm = window.confirm('are you sure you want to resend receipt ?');
+    if(!confirm) return;
+    setIsResending(true);
+    toast.loading('resending receipt...',{id:'receipt'});
+    try{
+      await api.get(`/hub/receipt/resend/${receiptId}`);
+      toast.success("receipt sent", { id: "receipt" });
+
+    }catch(err){
+      console.log(err);
+      toast.error("failed to sent receipt", { id: "receipt" });
+    }finally{
+      setIsResending(false);
+      setShowMenu(false);
+    }
+  }
   
   return (
     <div className="w-full grid grid-cols-16 p-3 text-xs text-center bg-(--surface) border-b border-b-gray-100">
@@ -70,7 +110,9 @@ function HubReportsTableRow({
       <p className="flex justify-center items-center ">{student.its}</p>
 
       <p className={` flex justify-center items-center col-span-2`}>
-        <span className={`${batchColors[batch]} px-3 py-1 rounded-md`}>{batch}</span>
+        <span className={`${batchColors[batch]} px-3 py-1 rounded-md`}>
+          {batch}
+        </span>
       </p>
 
       <p className="flex justify-center items-center ">
@@ -88,7 +130,7 @@ function HubReportsTableRow({
         })}
       </p>
 
-      <div className="flex justify-center items-center col-span-3 ml-1 ">
+      <div className="flex justify-center items-center col-span-3 ml-1 truncate">
         <div className="flex items-center gap-5 bg-gray-100 py-1 px-2 rounded-md">
           {transaction_id}
           <button
@@ -104,9 +146,70 @@ function HubReportsTableRow({
         </div>
       </div>
 
-      <p className="my-auto">{emailStatus || '-'}</p>
+      <div className="my-auto w-fit">
+        {emailStatus === "delivered" && (
+          <p className="flex items-center gap-1 text-green-500 bg-green-50 rounded-md p-1 px-3">
+            <span>
+              <IoIosCheckmarkCircle className="text-xl text-green-500" />
+            </span>
+            <span className="font-bold">Delivered</span>
+          </p>
+        )}
+        {emailStatus === "bounced" && (
+          <p className="flex items-center gap-1 text-red-500 bg-red-50 rounded-md p-1 px-3">
+            <span>
+              <RxCrossCircled className="text-xl text-red-500" />
+            </span>
+            <span className="font-bold">Bounced</span>
+          </p>
+        )}
+        {emailStatus === "delayed" && (
+          <p className="flex items-center gap-1 text-yellow-500 bg-yellow-50 rounded-md p-1 px-3">
+            <span>
+              <CiClock2 className="text-xl text-yellow-500" />
+            </span>
+            <span className="font-bold">Delivered</span>
+          </p>
+        )}
+        {!emailStatus && (
+          <p className="flex items-center gap-1 text-red-500 bg-red-50 rounded-md p-1 px-3">
+            <span>
+              <CiCircleQuestion className="text-xl text-red-500" />
+            </span>
+            <span className="font-bold">Unknown</span>
+          </p>
+        )}
+      </div>
 
-      <button className="ml-auto my-auto"><HiOutlineDotsVertical /></button>
+      <div className="relative ml-auto">
+        <button
+          className="ml-auto my-auto hover:bg-gray-200 rounded-md p-2 hover:cursor-pointer transition-all duration-300 ease-in-out"
+          onClick={() => setShowMenu(!showMenu)}
+        >
+          <HiOutlineDotsVertical />
+        </button>
+        {showMenu && (
+          <div className="w-40 absolute top-full right-0 z-50 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
+            <button
+              onClick={handleResend}
+              disabled={isResending}
+              className="hover:cursor-pointer flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50"
+            >
+              <FiRotateCw size={16} />
+              {isResending ? "Resending..." : "Resend"}
+            </button>
+
+            <button
+              disabled={mutate.isPending}
+              onClick={handleDelete}
+              className="hover:cursor-pointer flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
+            >
+              <FiTrash2 size={16} />
+              {mutate.isPending ? "Deleting..." : "Delete"}
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

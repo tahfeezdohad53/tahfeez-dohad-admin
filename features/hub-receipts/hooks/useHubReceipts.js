@@ -14,7 +14,7 @@ function useHubReports() {
     const its = searchParams.get('its');
 
     return useQuery({
-        queryKey:['hub_reports',page,from,to,batch,its],
+        queryKey:['receipts',page,from,to,batch,its],
         queryFn:() => handleGetHubReports({page,from,to,batch,its}),
         refetchOnMount:false,
         placeholderData:keepPreviousData,

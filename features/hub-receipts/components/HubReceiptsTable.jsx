@@ -19,6 +19,7 @@ function HubReportsTable() {
           <HubReportsTableRow
           i={i}
             key={el._id}
+            receiptId={el._id}
             student={el.student}
             batch={el.batch}
             amountPaid={el.amountPaid}
