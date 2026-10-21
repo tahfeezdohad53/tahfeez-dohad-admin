@@ -4,12 +4,14 @@ import { api } from "@/shared/lib/axios";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 export default function AccountFilters() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const role = searchParams.get("role");
+  const ITS = searchParams.get('ITS');
+
    const { data } = useQuery({
      queryKey: ["totalAccounts",],
      queryFn: handleGetAccounts,
@@ -47,18 +49,26 @@ export default function AccountFilters() {
         <div className="flex items-center gap-4 w-full justify-between">
           <div className="flex-1">
             <label className="mb-2 block text-sm font-medium text-gray-600">
-              Role
+              ITS
             </label>
 
-            <select
-              onChange={(e) => handleFilter("role", e.target.value)}
-              value={role || "student"}
+            <input
+            type="number"
+            placeholder="Enter Student ITS"
+            onKeyDown={(e) => {
+              if(e.code !== 'Enter') return;
+              if(e.currentTarget.value.length !== 8) return toast.error('ITS should be 8 digits long');
+              handleFilter('ITS',e.currentTarget.value);
+            }}
+              onChange={(e) => {
+                if(e.target.value.length === 0) handleFilter('ITS',"")
+              }}
+              defaultValue={ITS}
               className="h-10 w-full rounded-xl border border-gray-300 px-3 text-sm outline-none focus:border-violet-500"
             >
-              <option value="student">Student</option>
-              {/* <option value="teacher">Teacher</option>
-              <option value="admin">Admin</option> */}
-            </select>
+              
+              
+            </input>
           </div>
 
           <div className="flex-1">
@@ -68,7 +78,10 @@ export default function AccountFilters() {
 
             <div className="flex flex-1 gap-3">
               <select
-                onChange={(e) => handleFilter("batch", e.target.value)}
+                onChange={(e) => {
+                  if(e.target.value === 'false') return handleFilter("isActive", e.target.value);
+                  handleFilter("batch", e.target.value);
+                }}
                 value={searchParams.get("batch") || ""}
                 className="h-10 w-full rounded-xl border border-gray-300 px-3 text-sm outline-none focus:border-violet-500"
               >
@@ -79,6 +92,7 @@ export default function AccountFilters() {
                 <option value="kibaar">kibaar</option>
                 <option value="sigaar">Sigaar</option>
                 <option value="taheri_hall">taheri_hall</option>
+                <option value="false">Deleted Students</option>
               </select>
             </div>
           </div>

@@ -8,11 +8,12 @@ function useAccounts() {
     const searchParams = useSearchParams();
     const page = searchParams.get("page");
     const batch = searchParams.get("batch");
-    const role = searchParams.get("role");
+    const ITS = searchParams.get("ITS");
+    const isActive = searchParams.get('isActive');
 
     return useQuery({
-    queryKey:['accounts',page,batch,role],
-    queryFn:() => handleGetAccounts({page,batch,role}),
+    queryKey:['accounts',page,batch,ITS,isActive],
+    queryFn:() => handleGetAccounts({page,batch,ITS,isActive}),
     refetchOnWindowFocus:false,
     placeholderData:keepPreviousData,
   })

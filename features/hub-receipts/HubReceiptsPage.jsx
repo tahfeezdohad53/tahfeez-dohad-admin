@@ -14,7 +14,7 @@ function HubReportsPage() {
   //   if (user?.isSubAdmin) router.replace("/hub_management");
   // },[user,router]);
 
-    if(!user?.isSubAdmin)return (
+    return (
       <div className="flex-1 px-3 flex flex-col gap-5">
         <HubReportsFilter />
 

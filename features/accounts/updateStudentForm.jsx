@@ -12,6 +12,8 @@ import {
 import toast from "react-hot-toast";
 import useUpdateStudent from "@/features/accounts/hooks/useUpdateStudent";
 import useDeleteStudent from "./hooks/useDeleteStudent";
+import { FaArrowRotateLeft } from "react-icons/fa6";
+import { api } from "@/shared/lib/axios";
 
 const batches = [
   "yaqoot_mardo",
@@ -31,6 +33,7 @@ function UpdateStudentForm({
       const mutate = useUpdateStudent();
       const deleteStudent = useDeleteStudent();
       const [isSubmitting,setIsSubmitting] = useState(false);
+      const [isRecovering,setIsRecovering] = useState(false);
       const [selectedBatch, setSelectedBatch] = useState(student?.batch || "");
       const [allocatedHub, setAllocatedHub] = useState(
         student?.allocatedHub || "",
@@ -38,6 +41,23 @@ function UpdateStudentForm({
       const [email,setEmail] = useState(student?.contactEmail || '');
       const [address,setAddress] = useState(student?.address || '');
       const [contactNumber,setContactNumber] = useState(student?.contactNumber || '');
+
+      async function recoverAccount() {
+              const confirm = window.confirm("are you sure you want to recover this student's account ?");
+              if(!confirm) return;
+              setIsRecovering(true);
+              toast.loading('recovering account...',{id:'recover'});
+              try{
+                await api.post(`/user/recover-account/${student._id}`);
+              toast.success('account recovered!',{id:'recover'});
+              onClose();
+              } catch(err) {
+                console.log(err);
+                toast.error('failed to recover account!',{id:'recover'});
+              }finally{
+                setIsRecovering(false);
+              }
+            }
 
       async function handleUpdateStudent(e) {
         if(!selectedBatch || !email || !address || !allocatedHub || !contactNumber) return toast.error('fill all fields first!');
@@ -208,7 +228,7 @@ function UpdateStudentForm({
 
         {/* Footer */}
         <div className="flex items-center justify-between gap-3 border-t border-gray-100 bg-gray-50/50 px-7 py-5">
-          <button
+          {student.isActive && <button
             type="button"
             onClick={async () => {
               const confirm = window.confirm('are you sure you want to delete this student ?');
@@ -217,7 +237,15 @@ function UpdateStudentForm({
             className="flex items-center gap-2 rounded-xl border border-gray-200 bg-red-500 px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:cursor-pointer hover:bg-red-600"
           >
             <MdDelete /> Delete
-          </button>
+          </button>}
+          {!student.isActive && <button
+          disabled={isRecovering}
+            type="button"
+            onClick={recoverAccount}
+            className="disabled:cursor-not-allowed flex items-center gap-2 rounded-xl border border-gray-200 bg-purple-500 px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:cursor-pointer hover:bg-red-600"
+          >
+            <FaArrowRotateLeft /> Recover
+          </button>}
           <div className="flex items-center gap-3">
             <button
               type="button"

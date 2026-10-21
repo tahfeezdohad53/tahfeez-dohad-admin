@@ -46,7 +46,8 @@ function HubReportsTableRow({
   transaction_id,
   i,
   emailStatus,
-  emailErrorMessage
+  emailErrorMessage,
+  user
 }) {
 
   const [isCopiedToClipboard,setIsCopiedToClipboard] = useState(false);
@@ -199,14 +200,14 @@ function HubReportsTableRow({
               {isResending ? "Resending..." : "Resend"}
             </button>
 
-            <button
+            {user?.role === 'admin' && <button
               disabled={mutate.isPending}
               onClick={handleDelete}
               className="hover:cursor-pointer flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
             >
               <FiTrash2 size={16} />
               {mutate.isPending ? "Deleting..." : "Delete"}
-            </button>
+            </button>}
           </div>
         )}
       </div>
