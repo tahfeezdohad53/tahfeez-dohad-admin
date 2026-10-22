@@ -169,7 +169,7 @@ function HubReportsTableRow({
             <span>
               <CiClock2 className="text-xl text-yellow-500" />
             </span>
-            <span className="font-bold">Delivered</span>
+            <span className="font-bold">Delayed</span>
           </p>
         )}
         {!emailStatus && (
