@@ -38,6 +38,7 @@ export default function AccountFilters() {
 
   function handleFilter(type,value){
     const urlSearchParams = new URLSearchParams(searchParams);
+    if(searchParams.get('isActive')) urlSearchParams.set('isActive','false');
       urlSearchParams.set(type, value);
       urlSearchParams.set('page','1')
       router.replace(`${pathname}?${urlSearchParams}`, { scroll: false });
