@@ -12,7 +12,8 @@ import useDeleteReceipt from "../hooks/useDeleteReceipt";
 import toast from "react-hot-toast";
 import { api } from "@/shared/lib/axios";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import { RxCrossCircled } from "react-icons/rx";
+import { RxCross2, RxCrossCircled } from "react-icons/rx";
+import HubReceiptEmailErrorMessage from "./HubReceiptEmailErrorMessage";
 
 const randomColors = [
   "bg-purple-100 text-purple-700",
@@ -53,6 +54,7 @@ function HubReportsTableRow({
   const [isCopiedToClipboard,setIsCopiedToClipboard] = useState(false);
   const [showMenu,setShowMenu] = useState(false);
   const [isResending,setIsResending] = useState(false);
+  const [isShowEmailError,setIsShowEmailError] = useState(false);
 
   const mutate = useDeleteReceipt();
 
@@ -97,6 +99,7 @@ function HubReportsTableRow({
   
   return (
     <div className="w-full grid grid-cols-16 p-3 text-xs text-center bg-(--surface) border-b border-b-gray-100">
+      {isShowEmailError && <HubReceiptEmailErrorMessage setIsShowEmailError={setIsShowEmailError} emailErrorMessage={emailErrorMessage}/>}
       <p className="text-left flex items-center">1</p>
 
       <h1 className="flex items-center gap-2 col-span-4 text-left font-bold">
@@ -157,20 +160,23 @@ function HubReportsTableRow({
           </p>
         )}
         {emailStatus === "bounced" && (
-          <p className="flex items-center gap-1 text-red-500 bg-red-50 rounded-md p-1 px-3">
+          <button
+            onClick={() => setIsShowEmailError(true)}
+            className="hover:cursor-pointer hover:bg-red-100 flex items-center gap-1 text-red-500 bg-red-50 rounded-md p-1 px-3"
+          >
             <span>
               <RxCrossCircled className="text-xl text-red-500" />
             </span>
             <span className="font-bold">Bounced</span>
-          </p>
+          </button>
         )}
         {emailStatus === "delayed" && (
-          <p className="flex items-center gap-1 text-yellow-500 bg-yellow-50 rounded-md p-1 px-3">
+          <button className="flex items-center gap-1 text-yellow-500 bg-yellow-50 rounded-md p-1 px-3">
             <span>
               <CiClock2 className="text-xl text-yellow-500" />
             </span>
             <span className="font-bold">Delayed</span>
-          </p>
+          </button>
         )}
         {!emailStatus && (
           <p className="flex items-center gap-1 text-red-500 bg-red-50 rounded-md p-1 px-3">
@@ -200,14 +206,16 @@ function HubReportsTableRow({
               {isResending ? "Resending..." : "Resend"}
             </button>
 
-            {user?.role === 'admin' && <button
-              disabled={mutate.isPending}
-              onClick={handleDelete}
-              className="hover:cursor-pointer flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
-            >
-              <FiTrash2 size={16} />
-              {mutate.isPending ? "Deleting..." : "Delete"}
-            </button>}
+            {user?.role === "admin" && (
+              <button
+                disabled={mutate.isPending}
+                onClick={handleDelete}
+                className="hover:cursor-pointer flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
+              >
+                <FiTrash2 size={16} />
+                {mutate.isPending ? "Deleting..." : "Delete"}
+              </button>
+            )}
           </div>
         )}
       </div>
