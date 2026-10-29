@@ -27,8 +27,26 @@ const randomColors = [
   "bg-green-100 text-green-700",
   "bg-purple-100 text-purple-700",
   "bg-blue-100 text-blue-700",
+  "bg-purple-100 text-purple-700",
+  "bg-blue-100 text-blue-700",
+  "bg-orange-100 text-orange-700",
+  "bg-yellow-100 text-yellow-700",
+  "bg-green-100 text-green-700",
+  "bg-red-100 text-red-700",
+  "bg-orange-100 text-orange-700",
+  "bg-yellow-100 text-yellow-700",
+  "bg-green-100 text-green-700",
+  "bg-purple-100 text-purple-700",
+  "bg-blue-100 text-blue-700",
 ];
 const batchColors = {
+  yaqoot_mardo: "bg-purple-100 text-purple-700",
+  yaqoot_bairo: "bg-blue-100 text-blue-700",
+  baneen: "bg-orange-100 text-orange-700",
+  banaat: "bg-pink-100 text-pink-700",
+  sigaar: "bg-yellow-100 text-yellow-700",
+  kibaar: "bg-green-100 text-green-700",
+  taheri_hall: "bg-red-100 text-red-700",
   yaqoot_mardo: "bg-purple-100 text-purple-700",
   yaqoot_bairo: "bg-blue-100 text-blue-700",
   baneen: "bg-orange-100 text-orange-700",
@@ -48,7 +66,8 @@ function HubReportsTableRow({
   i,
   emailStatus,
   emailErrorMessage,
-  user
+  user,
+  page
 }) {
 
   const [isCopiedToClipboard,setIsCopiedToClipboard] = useState(false);
@@ -100,7 +119,7 @@ function HubReportsTableRow({
   return (
     <div className="w-full grid grid-cols-16 p-3 text-xs text-center bg-(--surface) border-b border-b-gray-100">
       {isShowEmailError && <HubReceiptEmailErrorMessage setIsShowEmailError={setIsShowEmailError} emailErrorMessage={emailErrorMessage}/>}
-      <p className="text-left flex items-center">1</p>
+      <p className="text-left flex items-center">{((Number(page) - 1) * 20 + i) + 1}</p>
 
       <h1 className="flex items-center gap-2 col-span-4 text-left font-bold">
         <p

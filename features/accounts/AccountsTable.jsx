@@ -82,7 +82,7 @@ export default function AccountsTable() {
               setSelectedStudents={setSelectedStudents}
               key={user._id}
               user={user}
-              index={(Number(page) - 1) * 10 + index}
+              index={(Number(page) - 1) * 20 + index}
               i={index}
             />
           ))}

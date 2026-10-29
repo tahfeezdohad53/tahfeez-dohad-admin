@@ -6,10 +6,14 @@ import HubReportsTableController from "./HubReceiptsTableController";
 import HubReportsTableHeader from "./HubReceiptsTableHeader";
 import HubReportsTableRow from "./HubReceiptsTableRow";
 import { useUser } from "@/providers/UserProvider";
+import { useSearchParams } from "next/navigation";
 
 function HubReportsTable() {
     const {data} = useHubReports();
     const {user} = useUser();
+    const searchParams = useSearchParams();
+    const page = searchParams.get('page');
+
     return (
       <div className="rounded-md overflow-auto border border-gray-200 shadow-(--shadow-sm)">
         <HubReportsTableHeader />
@@ -29,6 +33,7 @@ function HubReportsTable() {
             emailStatus={el?.emailStatus}
             emailErrorMessage={el?.emailErrorMessage}
             user={user}
+            page={page}
           />
         ))}
 

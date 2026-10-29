@@ -34,7 +34,7 @@ export default function TableController({totalRes}) {
       {/* Left */}
       <p className="text-sm text-gray-600">
         Showing <span className="font-semibold text-gray-900">{page}</span> out of{" "}
-        <span className="font-semibold text-gray-900">{Math.ceil(totalRes / 10)}</span>
+        <span className="font-semibold text-gray-900">{Math.ceil(totalRes / 20)}</span>
       </p>
 
       {/* Right */}
